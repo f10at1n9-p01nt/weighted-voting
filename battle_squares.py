@@ -20,9 +20,20 @@ player1rect = pygame.Rect(400,200,PLAYERSIZE,PLAYERSIZE)
 player2rect = pygame.Rect(800,300,PLAYERSIZE,PLAYERSIZE)
 
 
-def check_middle_1(player):
+def check_middle(player):
 	'''Checks to make sure the player can't cross center line'''
-	return None
+	if player.right + MOVE < WINDOWWIDTH/2 or player.left - MOVE > WINDOWWIDTH/2:
+		return MOVE
+	else:
+		return 0
+
+
+def check_edge(player):
+	'''Checks to make sure the player can't leave left and right edges'''
+	if player.left - MOVE >= 0 and player.right + MOVE <= WINDOWWIDTH:
+		return MOVE
+	else:
+		return 0
 
 
 def check_top(player):
@@ -55,22 +66,22 @@ def main():
 				pygame.quit()
 				sys.exit()
 			elif event.type == KEYUP:
-				if (event.key == K_RIGHT):
-					player1rect.right += check_middle_1(player1rect)
-				elif (event.key == K_LEFT):
-					player1rect.left -= MOVE
-				elif (event.key == K_UP):
-					player1rect.top -= check_top(player1rect)
-				elif (event.key == K_DOWN):
-					player1rect.bottom += check_bottom(player1rect)
-				elif (event.key == K_s):
-					player2rect.bottom += check_bottom(player2rect)
-				elif (event.key == K_w):
-					player2rect.top -= check_top(player2rect)
+				if (event.key == K_d):
+					player1rect.right += check_middle(player1rect)
 				elif (event.key == K_a):
-					player2rect.left -= 5
-				elif (event.key == K_d):
-					player2rect.right += 5
+					player1rect.left -= check_edge(player1rect)
+				elif (event.key == K_w):
+					player1rect.top -= check_top(player1rect)
+				elif (event.key == K_s):
+					player1rect.bottom += check_bottom(player1rect)
+				elif (event.key == K_DOWN):
+					player2rect.bottom += check_bottom(player2rect)
+				elif (event.key == K_UP):
+					player2rect.top -= check_top(player2rect)
+				elif (event.key == K_LEFT):
+					player2rect.left -= check_middle(player2rect)
+				elif (event.key == K_RIGHT):
+					player2rect.right += check_edge(player2rect)
 		pygame.display.update()
 
 main()
