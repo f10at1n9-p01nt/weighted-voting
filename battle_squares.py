@@ -8,7 +8,7 @@ from pygame.locals import *
 FPS = 30
 WINDOWWIDTH = 1024
 WINDOWHEIGHT = 760
-PLAYERSIZE = 30
+PLAYERSIZE = 75
 MOVE = 20
 
 WHITE = (255,255,255)
@@ -18,6 +18,10 @@ BLUE = (0,0,255)
 
 player1rect = pygame.Rect(400,200,PLAYERSIZE,PLAYERSIZE)
 player2rect = pygame.Rect(800,300,PLAYERSIZE,PLAYERSIZE)
+player1image = pygame.image.load('tank.png')
+player2image = pygame.image.load('man2.png')
+player1fit = pygame.transform.scale(player1image, (PLAYERSIZE,PLAYERSIZE))
+player2fit = pygame.transform.scale(player2image, (PLAYERSIZE,PLAYERSIZE))
 
 
 def check_middle(player):
@@ -59,8 +63,10 @@ def main():
 	while True:
 		DISPLAYSURF.fill(WHITE)
 		pygame.draw.line(DISPLAYSURF, BLACK, (WINDOWWIDTH/2,0), (WINDOWWIDTH/2,WINDOWHEIGHT),3)
-		pygame.draw.rect(DISPLAYSURF, BLUE, player1rect)
-		pygame.draw.rect(DISPLAYSURF, RED, player2rect)
+		#pygame.draw.rect(DISPLAYSURF, BLUE, player1rect)
+		DISPLAYSURF.blit(player1fit, player1rect)
+		#pygame.draw.rect(DISPLAYSURF, RED, player2rect)
+		DISPLAYSURF.blit(player2fit, player2rect)
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				pygame.quit()
